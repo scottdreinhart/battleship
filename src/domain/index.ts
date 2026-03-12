@@ -5,9 +5,11 @@
  * Usage: import { createBoard, checkWin } from '@/domain'
  */
 
-export * from './types'
-export * from './constants'
-export * from './board'
-export * from './rules'
 export * from './ai'
+export * from './board'
+export * from './constants'
+export * from './layers'
+export * from './rules'
+export * from './sprites'
 export * from './themes'
+export * from './types'
