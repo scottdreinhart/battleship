@@ -1,0 +1,53 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  max-width: 100%;
+}
+
+.label {
+  font-size: 1rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  opacity: 0.8;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1.6rem repeat(var(--grid-size, 10), 1fr);
+  gap: 2px;
+  background: var(--grid-bg, rgba(255, 255, 255, 0.03));
+  border-radius: 6px;
+  padding: 4px;
+  max-width: 100%;
+}
+
+.corner {
+  width: 1.6rem;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  opacity: 0.5;
+  text-transform: uppercase;
+}
+
+.row {
+  display: contents;
+}
+
+.rowHeader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.7rem;
+  font-weight: 700;
+  opacity: 0.5;
+  width: 1.6rem;
+}

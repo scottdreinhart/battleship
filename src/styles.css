@@ -12,20 +12,9 @@ body {
   color: #e0e0e0;
   display: flex;
   justify-content: center;
-  align-items: center;
   min-height: 100vh;
 }
 
-.app {
-  text-align: center;
-  padding: 2rem;
-}
-
-h1 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  background: linear-gradient(135deg, #667eea, #764ba2);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+button {
+  font-family: inherit;
 }

@@ -305,3 +305,141 @@ Before emitting any code, command, or file change, verify:
 - [ ] Does my output match an existing `package.json` script where applicable?
 
 If any check fails, fix it before responding.
+
+---
+
+## 10. Game UI Requirements
+
+**Authority**: `.github/ui-patterns-governance.md` (see below for full reference).
+
+This project implements the **mandatory game UI pattern baseline** required across all game projects. The following components are normative:
+
+### Mandatory UI Components
+
+| Component | File | Purpose |
+|---|---|---|
+| **Splash Screen** | `src/ui/molecules/Splash.tsx` | 2-3 sec animated logo intro |
+| **Landing Screen** | `src/ui/molecules/Landing.tsx` | Difficulty selection & game info |
+| **Settings Modal** | `src/ui/molecules/SettingsModal.tsx` | Theme, sound, rules (baseline + extensible) |
+| **Hamburger Menu** | `src/ui/molecules/HamburgerMenu.tsx` | New Game / Settings / About navigation |
+| **About Modal** | `src/ui/molecules/AboutModal.tsx` | Game info, features, technology |
+
+### Screen Transition Flow
+
+```
+Splash (2-3s) → Landing (difficulty select)
+             → Game Screen (with HamburgerMenu)
+                 ↓
+              SettingsModal / AboutModal (on demand)
+```
+
+### App State Management
+
+```typescript
+type AppScreen = 'splash' | 'landing' | 'game'
+// Managed in src/ui/organisms/App.tsx
+```
+
+### Required Patterns
+
+1. **Animated Logo**: Game-specific SVG or canvas animation (ships, cards, dice, pawns, etc.)
+2. **Difficulty Integration**: Pass difficulty to game logic (`easy` = naive AI, `hard` = intelligent AI)
+3. **Theme Consistency**: Use colors from `@/domain/themes` (7 standard color themes)
+4. **Sound Integration**: Use `useSoundEffects()` for button clicks, transitions
+5. **Responsive Design**: Use `useResponsiveState()` for mobile/desktop layouts
+6. **Accessibility**: Gate animations behind `@media (prefers-reduced-motion: no-preference)`
+
+### Extensibility
+
+The baseline is intentionally extensible:
+- **SettingsModal**: Add game-specific sections after Rules (grid size, variant selection, AI personality, etc.)
+- **HamburgerMenu**: Add game-specific menu items between Settings and About
+- **AboutModal**: Customize features list and technology stack
+- **Splash Logo**: Create unique animation for each game
+
+### Full Documentation
+
+See `.github/ui-patterns-governance.md` for:
+- Complete component specifications
+- CSS animation principles
+- Touch optimization guidelines
+- Implementation checklist
+- Extension patterns by game type
+- Accessibility requirements
+
+---
+
+## Governance Binding
+
+This standard is **mandatory**. All games must implement these patterns before production release. Exceptions require written approval and documentation in the project-specific AGENTS.md.
+
+---
+
+## 11. AI Orchestration Governance
+
+All game projects must implement **scale-aware AI orchestration** that chooses the
+simplest execution model that does not block the UI.
+
+### Mandatory
+
+- Implement a synchronous AI entry point such as `computeAiMove` or `computeAIMoves`
+  for low-latency scenarios.
+- Implement an asynchronous AI entry point such as `computeAiMoveAsync` or an
+  equivalent worker-backed service for medium/high-complexity scenarios.
+- Prefer **WASM-first** execution where feasible, with a **JS fallback** that preserves
+  correctness when WASM or workers are unavailable.
+- Gracefully fall back from worker-backed execution to synchronous execution rather
+  than crashing or leaving the UI stuck.
+- Add tests that validate both sync and async paths, including equivalence for
+  deterministic AI and fallback behavior when workers are unavailable.
+- Document the complexity decision in the AI engine/service module, including why a
+  project uses sync-only, optional async, or async-required execution.
+
+### Performance Guardrails
+
+- Prefer synchronous main-thread AI when decision time is reliably under `10ms`.
+- If measured decision time exceeds `10ms`, profile whether worker-backed execution
+  improves responsiveness.
+- Synchronous AI paths should complete in under `100ms` for expected gameplay.
+- Asynchronous AI paths should complete in under `500ms`, including worker overhead,
+  for expected gameplay.
+
+### Architectural Intent
+
+- Small fixed-complexity games such as 3×3 tic-tac-toe may correctly choose sync
+  main-thread WASM as the default path.
+- Larger or state-dependent games should expose async orchestration so UI responsiveness
+  does not regress as search depth or board size grows.
+- Keep AI computation logic in `src/domain/` where practical, orchestration in
+  `src/app/`, worker entry points in `src/workers/`, and WASM loaders in `src/wasm/`.
+
+## Project Identity Security Rule
+
+- Never rename the project, product, app, or package identity to the name of an implementation technology, framework, runtime, or tool used to build it.
+- Treat project-identity rewrites based on underlying technology labels as a security and governance violation.
+- Preserve user-defined product names unless the user explicitly requests a rename.
+
+## Input & UI Consistency Mandate
+
+- Use centralized keyboard controller hooks in `src/app` (e.g., `useKeyboardControls` or equivalent) instead of scattering key listeners across UI components.
+- Avoid direct per-component `document.addEventListener('keydown', ...)` unless wrapped by a shared hook.
+- Keep movement/action mappings consistent where mechanics allow (Arrow keys + WASD and documented action keys).
+- Maintain standard game shell surfaces where applicable: splash, landing, HUD/scoreboard, settings menu, and scores/history.
+
+---
+
+## Input Controls Directive (Mandatory)
+
+- The full cross-platform input architecture directive is defined in `.github/instructions/08-input-controls.instructions.md`.
+- All agent-authored input changes MUST comply with that directive, including semantic action modeling, context-aware behavior, text-input safety, repeat/phase handling, and TV-first focus requirements.
+- In conflicts between implementation convenience and directive compliance, directive compliance wins.
+- `useKeyboardControls` MUST remain a keyboard adapter (not a monolithic input system); broader orchestration belongs in higher-level app hooks.
+
+### Agent Checklist
+
+- [ ] Input mappings dispatch semantic actions, not raw device events in UI/game logic.
+- [ ] Keyboard mappings prefer `event.code` for game controls (WASD, arrows, space, enter).
+- [ ] Text-entry safety is preserved (no accidental gameplay triggers while typing).
+- [ ] Context-sensitive behavior is explicit (gameplay/menu/chat/modal/disabled).
+- [ ] Repeat and key phase (`keydown`/`keyup`) behavior is intentional per action.
+- [ ] TV baseline navigation works with D-pad + OK + Back semantics.

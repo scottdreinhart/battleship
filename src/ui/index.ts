@@ -5,5 +5,5 @@
  * Usage: import { ErrorBoundary, cx } from '@/ui'
  */
 
-export { BREAKPOINTS } from './ui-constants'
+export { BREAKPOINTS, MEDIA } from './ui-constants'
 export { cx } from './utils/cssModules'

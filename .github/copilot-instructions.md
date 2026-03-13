@@ -88,6 +88,22 @@ Every new script must: solve a real need, belong to approved languages, fit exis
 
 ---
 
+## UI Pattern Requirements
+
+This game implements the **mandatory baseline UI patterns** defined in `.github/ui-patterns-governance.md`. All UI work must follow:
+
+1. **Animated Splash Screen** — 2-3 sec game logo intro before landing screen
+2. **Landing Screen** — difficulty selection (Easy/Hard) before game starts
+3. **Settings Modal** — theme picker, sound volume, game rules (+ game-specific extensions)
+4. **Hamburger Menu** — top-right navigation (New Game, Settings, About)
+5. **About Modal** — game info, features, technology stack
+
+All animations must respect `@media (prefers-reduced-motion: no-preference)` for accessibility.
+
+See `.github/ui-patterns-governance.md` for complete specifications, implementation checklists, extensibility patterns, and CSS animation principles.
+
+---
+
 ## Behavioral Rules
 
 1. **Minimal change** — modify only what was requested; do not refactor, reorganize, or add dependencies unsolicited.
@@ -95,3 +111,25 @@ Every new script must: solve a real need, belong to approved languages, fit exis
 3. **Cite governance** — if a request violates a rule, name the rule and suggest a compliant alternative.
 4. **No new top-level directories** without explicit user instruction.
 5. **Use existing scripts** from `package.json` before inventing CLI commands.
+
+## Project Identity Rule
+
+- Preserve project identity. Never rename the project or product to a framework, runtime, or tool name; treat that as forbidden.
+
+## Input & UI Consistency
+
+- Use shared keyboard controller hooks in `src/app` rather than per-component keydown listeners.
+- Preserve standard game shell surfaces (splash, landing, HUD/scoreboard, settings menu, scores/history) unless explicitly asked to change them.
+
+## Input Controls Directive (Mandatory)
+
+- All input work must follow `.github/instructions/08-input-controls.instructions.md`.
+- Input implementations must remain semantic-action-driven, platform-aware, text-input-safe, and TV-focus-compliant.
+- `useKeyboardControls` is a keyboard adapter only; broader orchestration belongs in higher-level app hooks.
+
+### Agent Checklist
+
+- [ ] Use semantic actions as the primary integration surface.
+- [ ] Preserve text-input safety and chat/input focus behavior.
+- [ ] Keep `useKeyboardControls` as an adapter, not orchestration.
+- [ ] Ensure mappings remain unsurprising across Desktop/Web/Mobile/TV.

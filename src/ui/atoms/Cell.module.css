@@ -1,0 +1,88 @@
+.cell {
+  width: 100%;
+  aspect-ratio: 1;
+  border: 1px solid var(--grid-border, rgba(255, 255, 255, 0.1));
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 0;
+  font-size: 0;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .cell {
+    transition:
+      background 0.15s,
+      transform 0.1s;
+  }
+}
+
+@media (hover: hover) {
+  .cell:hover:not(.disabled) {
+    transform: scale(1.1);
+    z-index: 1;
+  }
+}
+
+/* Touch: active press feedback instead of hover */
+@media (pointer: coarse) {
+  .cell:active:not(.disabled) {
+    transform: scale(0.95);
+    z-index: 1;
+  }
+}
+
+.cell:focus-visible {
+  outline: 2px solid var(--accent, #667eea);
+  outline-offset: 1px;
+}
+
+.empty {
+  background: var(--cell-empty, rgba(255, 255, 255, 0.05));
+}
+
+.ship {
+  background: var(--cell-ship, rgba(102, 126, 234, 0.5));
+}
+
+.hit {
+  background: var(--cell-hit, #e74c3c);
+  position: relative;
+}
+
+.hit::after {
+  content: '\00D7';
+  font-size: 1.2rem;
+  color: #fff;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.miss {
+  background: var(--cell-miss, rgba(255, 255, 255, 0.15));
+  position: relative;
+}
+
+.miss::after {
+  content: '\2022';
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.4);
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.disabled {
+  cursor: default;
+  opacity: 0.8;
+}
+
+/* Touch-optimized: larger cells for coarse pointers */
+.touchOptimized {
+  min-width: 32px;
+  min-height: 32px;
+}
