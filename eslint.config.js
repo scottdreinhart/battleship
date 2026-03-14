@@ -3,6 +3,7 @@ import tseslint from 'typescript-eslint'
 import reactPlugin from 'eslint-plugin-react'
 import reactHooksPlugin from 'eslint-plugin-react-hooks'
 import jsxA11yPlugin from 'eslint-plugin-jsx-a11y'
+import securityPlugin from 'eslint-plugin-security'
 import prettierConfig from 'eslint-config-prettier'
 import boundaries from 'eslint-plugin-boundaries'
 
@@ -16,6 +17,7 @@ export default [
       react: reactPlugin,
       'react-hooks': reactHooksPlugin,
       'jsx-a11y': jsxA11yPlugin,
+      security: securityPlugin,
       boundaries,
     },
     languageOptions: {

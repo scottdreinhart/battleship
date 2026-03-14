@@ -360,6 +360,29 @@ If you have been granted contributor access:
 
 See the [LICENSE](LICENSE) file for usage restrictions.
 
+
+## Governance Adoption
+
+This project adheres to a standardized governance framework. The governance package includes:
+
+### Security
+- **ESLint Security Rules** — 8 XSS/injection detection rules (`eslint-plugin-security`)
+- Reference: [Security Guidelines](./.github/instructions/10-security.instructions.md)
+
+### Accessibility
+- **WCAG AA Compliance** — 30+ accessibility guidelines
+- Reference: [Accessibility Guidelines](./.github/instructions/09-wcag-accessibility.instructions.md)
+
+### Quality Standards
+- **Error Handling** — ErrorBoundary component for graceful error recovery
+- **Performance Monitoring** — Web Vitals tracking via `usePerformanceMetrics` hook
+- **Mobile Gestures** — Swipe/longpress gesture handlers
+- **Commit Convention** — Commitizen integration for structured commit messages
+
+### See Also
+- Development Build & Deployment: [01-build.instructions.md](./.github/instructions/01-build.instructions.md)
+- Performance Guidelines: [11-performance.instructions.md](./.github/instructions/11-performance.instructions.md)
+- Error Handling Pattern: [12-error-handling.instructions.md](./.github/instructions/12-error-handling.instructions.md)
 ## License
 
 Copyright © 2026 Scott Reinhart. All Rights Reserved.
