@@ -7,14 +7,19 @@ export interface AppScreensState<TScreen extends string> {
   goBack: () => void
 }
 
-export function useAppScreens<TScreen extends string>(initialScreen: TScreen): AppScreensState<TScreen> {
+export function useAppScreens<TScreen extends string>(
+  initialScreen: TScreen,
+): AppScreensState<TScreen> {
   const [screen, setScreenState] = useState<TScreen>(initialScreen)
   const [previousScreen, setPreviousScreen] = useState<TScreen | null>(null)
 
-  const setScreen = useCallback((next: TScreen) => {
-    setPreviousScreen(screen)
-    setScreenState(next)
-  }, [screen])
+  const setScreen = useCallback(
+    (next: TScreen) => {
+      setPreviousScreen(screen)
+      setScreenState(next)
+    },
+    [screen],
+  )
 
   const goBack = useCallback(() => {
     if (previousScreen !== null) {

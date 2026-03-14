@@ -50,11 +50,7 @@ const isEnabled = (enabled: Enabled | undefined): boolean => {
   return typeof enabled === 'function' ? enabled() : enabled
 }
 
-const normalizeToken = (token: string): string =>
-  token
-    .trim()
-    .toLowerCase()
-    .replace(/\s+/g, '')
+const normalizeToken = (token: string): string => token.trim().toLowerCase().replace(/\s+/g, '')
 
 const buildEventTokens = (event: KeyboardEvent): string[] => {
   const modifiers: string[] = []
@@ -88,11 +84,7 @@ const buildEventTokens = (event: KeyboardEvent): string[] => {
 
 export function useKeyboardControls(
   bindings: KeyboardActionBinding[],
-  {
-    enabled = true,
-    ignoreInputs = true,
-    target,
-  }: UseKeyboardControlsOptions = {},
+  { enabled = true, ignoreInputs = true, target }: UseKeyboardControlsOptions = {},
 ): void {
   const host = target ?? document
 

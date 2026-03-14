@@ -9,7 +9,7 @@ import type { GameStats } from '@/domain/types'
 
 import { load, save } from './storageService'
 
-const STORAGE_KEY = 'battleship-stats'
+const STORAGE_KEY = 'nim-stats'
 
 export function useStats() {
   const [stats, setStats] = useState<GameStats>(() => load(STORAGE_KEY, DEFAULT_STATS))

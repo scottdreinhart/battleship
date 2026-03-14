@@ -10,9 +10,9 @@
  * breakpoint logic.
  */
 
-import { useSyncExternalStore } from 'react'
-import { MEDIA_QUERIES, deriveResponsiveState } from '@/domain/responsive'
 import type { ResponsiveCapabilities, ResponsiveState } from '@/domain/responsive'
+import { MEDIA_QUERIES, deriveResponsiveState } from '@/domain/responsive'
+import { useSyncExternalStore } from 'react'
 
 // ─── Server & Snapshot Defaults ──────────────────────────────
 
@@ -44,7 +44,9 @@ const getMediaQueryMatches = (): Record<MediaQueryKey, boolean> => {
   return matches
 }
 
-const getCapabilitiesFromMediaQueries = (mqMatches: Record<MediaQueryKey, boolean>): ResponsiveCapabilities => {
+const getCapabilitiesFromMediaQueries = (
+  mqMatches: Record<MediaQueryKey, boolean>,
+): ResponsiveCapabilities => {
   const defaults = getDefaultCapabilities()
   return {
     width: typeof window !== 'undefined' ? window.innerWidth : defaults.width,
@@ -137,9 +139,7 @@ const subscribeResponsiveState = (listener: () => void): (() => void) => {
   }
 
   // Setup media query listeners with fallback for older browsers
-  const mediaQueryLists = Object.entries(MEDIA_QUERIES).map(([, query]) =>
-    window.matchMedia(query),
-  )
+  const mediaQueryLists = Object.entries(MEDIA_QUERIES).map(([, query]) => window.matchMedia(query))
 
   // Browser resize & orientation change
   window.addEventListener('resize', scheduleUpdate, { passive: true })

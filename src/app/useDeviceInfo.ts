@@ -17,10 +17,12 @@ export function useDeviceInfo(): DeviceInfo {
   const prefersTouch = useMediaQuery('(pointer: coarse)')
 
   return useMemo(() => {
-    const type: DeviceType = width > 0 && width < 640 ? 'mobile' : width < 1024 ? 'tablet' : 'desktop'
+    const type: DeviceType =
+      width > 0 && width < 640 ? 'mobile' : width < 1024 ? 'tablet' : 'desktop'
     const isTouch =
       prefersTouch ||
-      (typeof window !== 'undefined' && ('ontouchstart' in window || (navigator.maxTouchPoints ?? 0) > 0))
+      (typeof window !== 'undefined' &&
+        ('ontouchstart' in window || (navigator.maxTouchPoints ?? 0) > 0))
 
     return {
       type,

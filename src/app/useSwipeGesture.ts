@@ -41,7 +41,7 @@ export const useSwipeGesture = ({
       const deltaTime = Date.now() - touchStartRef.current.time
 
       // Avoid treating long-press as swipe
-      if (deltaTime > 1000) return
+      if (deltaTime > 1000) {return}
 
       // Calculate velocity (pixels per millisecond)
       const velocityX = Math.abs(deltaX) / deltaTime
